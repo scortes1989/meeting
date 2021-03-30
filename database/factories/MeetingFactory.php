@@ -14,6 +14,7 @@ class MeetingFactory extends Factory
         return [
             'name'          => $this->faker->sentence,
             'description'   => $this->faker->paragraph,
+            'date'          => $this->faker->dateTime,
         ];
     }
 }

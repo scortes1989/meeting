@@ -19,7 +19,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('meetings', [MeetingController::class, 'index']);
-Route::get('meetings/{meeting}', [MeetingController::class, 'show']);
-Route::post('meetings', [MeetingController::class, 'store']);
-Route::delete('meetings/{meeting}', [MeetingController::class, 'destroy']);
+Route::apiResource('meetings', MeetingController::class);

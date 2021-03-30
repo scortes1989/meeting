@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMeetingsTable extends Migration
+class CreateMeetingParticipantsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateMeetingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('meetings', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-            $table->string('name');
-            $table->text('description');
-            $table->dateTime('date');
-            $table->softDeletes();
+        Schema::create('meeting_participants', function (Blueprint $table) {
+            $table->unsignedBigInteger('meeting_id');
+            $table->unsignedBigInteger('participant_id');
+
+            $table->unique(['meeting_id', 'participant_id']);
         });
     }
 
@@ -30,6 +28,6 @@ class CreateMeetingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('meetings');
+        Schema::dropIfExists('meeting_participants');
     }
 }
