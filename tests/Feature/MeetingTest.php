@@ -26,6 +26,22 @@ class MeetingTest extends TestCase
     }
 
     // show
+    function test_show_a_meeting()
+    {
+        $this->withoutExceptionHandling();
+        $meeting = Meeting::factory()->create(['id' => $this->id]);
+
+        $this->get('api/v1/meetings'.$meeting->id)
+            ->assertStatus(200)
+            ->assertJson([
+                'data'  => [
+                    0   => [
+                        'id'    => $meeting->id,
+                    ],
+                ]
+            ]);
+    }
+
 
     function test_create_a_meeting()
     {
@@ -53,4 +69,15 @@ class MeetingTest extends TestCase
     // update
 
     // destroy
+    function test_destroy_a_meeting()
+    {
+        $this->withoutExceptionHandling();
+        $meeting = Meeting::factory()->create();
+        $this->delete('api/v1/meetings'.$meeting->id)
+            ->assertStatus(204);
+
+        $this->assertSoftDeleted('meetings',[
+            'id' => $meeting->id
+        ]);
+    }
 }
