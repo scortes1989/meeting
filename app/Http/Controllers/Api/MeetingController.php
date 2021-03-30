@@ -22,4 +22,16 @@ class MeetingController extends Controller
 
         return new MeetingResource($meeting);
     }
+
+    public function show($meetingId)
+    {
+        $meeting = Meeting::query()->find($meetingId);
+        return new MeetingResource($meeting);
+    }
+
+    public function destroy($meetingId)
+    {
+        Meeting::query()->where('id', $meetingId)->delete();
+        return response([],204);
+    }
 }
