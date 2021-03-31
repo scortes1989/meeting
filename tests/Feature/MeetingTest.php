@@ -97,6 +97,34 @@ class MeetingTest extends TestCase
     }
 
     // update
+    function test_update_a_meeting(){
+
+        $this->withoutExceptionHandling();
+
+        $meeting = Meeting::factory()->create();
+        $data = Meeting::factory()->make();
+
+        $parameters = [
+            'name'          => $data->name,
+            'description'   => $data->description,
+            'date'          => $data->date,
+        ];
+
+        $this->put('api/v1/meetings/'.$meeting->id, $parameters)
+            ->assertStatus(200)
+            ->assertJson([
+                'data'  => [
+                    'name'  => $data->name,
+                ]
+            ]);
+
+        $this->assertDatabaseHas('meetings', [
+            'name'          => $data->name,
+            'description'   => $data->description,
+            'date'          => $data->date,
+        ]);
+
+    }
 
     function test_destroy_a_meeting()
     {

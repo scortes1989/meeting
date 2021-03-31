@@ -42,4 +42,11 @@ class MeetingController extends Controller
 
         return response([],204);
     }
+
+    public function update(Request $request, $meetingId)
+    {
+        $meeting = Meeting::query()->find($meetingId);
+        $meeting->update($request->only(['name', 'description', 'date']));
+        return new MeetingResource($meeting);
+    }
 }
