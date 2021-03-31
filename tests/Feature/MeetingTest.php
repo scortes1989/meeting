@@ -17,6 +17,10 @@ class MeetingTest extends TestCase
 
     function test_list_meetings()
     {
+        $this->withoutExceptionHandling();
+
+        $this->signIn();
+
         $meeting = Meeting::factory()->create();
 
         $this->get('api/v1/meetings')
@@ -32,9 +36,11 @@ class MeetingTest extends TestCase
 
     function test_show_a_meeting()
     {
+        $this->signIn();
+
         $meeting = Meeting::factory()->create();
 
-        $this->get('api/v1/meetings/'.$meeting->id)
+        $this->getJson('api/v1/meetings/'.$meeting->id)
             ->assertStatus(200)
             ->assertJson([
                 'data'  => [
@@ -46,6 +52,8 @@ class MeetingTest extends TestCase
     function test_create_a_meeting()
     {
         $this->withoutExceptionHandling();
+
+        $this->signIn();
 
         Storage::fake();
         Notification::fake();
@@ -96,14 +104,15 @@ class MeetingTest extends TestCase
         Notification::assertSentTo($participant, MeetingNotification::class);
     }
 
-    // update
-    function test_update_a_meeting(){
+    function test_update_a_meeting()
+    {
+        $this->signIn();
 
         $this->withoutExceptionHandling();
 
         $meeting = Meeting::factory()->create();
-        $data = Meeting::factory()->make();
 
+        $data = Meeting::factory()->make();
         $parameters = [
             'name'          => $data->name,
             'description'   => $data->description,
@@ -128,6 +137,8 @@ class MeetingTest extends TestCase
 
     function test_destroy_a_meeting()
     {
+        $this->signIn();
+
         $meeting = Meeting::factory()->create();
 
         $this->delete('api/v1/meetings/'.$meeting->id)
