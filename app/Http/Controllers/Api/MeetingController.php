@@ -24,7 +24,7 @@ class MeetingController extends Controller
     {
         $meeting = Meeting::create($request->only(['name', 'description', 'date']));
 
-        $meeting->addParticipants($request)->storeFile($request)->sendNotification();
+        //$meeting->addParticipants($request)->storeFile($request)->sendNotification();
 
         return new MeetingResource($meeting);
     }
@@ -46,7 +46,8 @@ class MeetingController extends Controller
     public function update(Request $request, $meetingId)
     {
         $meeting = Meeting::query()->find($meetingId);
-        $meeting->update($request->only(['name', 'description', 'date']));
+        $meeting->update($request->only(['name', 'description']));
+
         return new MeetingResource($meeting);
     }
 }
